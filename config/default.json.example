@@ -5,7 +5,7 @@
       "prefix": "!",
       "debug": true
   },
-  "rvn": {
+  "park": {
     "paytxfee": .01,
     "config": {
       "port": 47774,
