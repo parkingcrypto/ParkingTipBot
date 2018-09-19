@@ -20,7 +20,7 @@
   // Bot Devs!
   "botDev": "Bot Developer",
   // Channel to log the bots moderation..
-  "logchannel": "481827740589228033",
+  "logchannel": "492023927778967552",
   //channel that the tip message will reply in if Multi or Role tip is used.
   "botspamchannels": ["481827740589228033"]
   }
