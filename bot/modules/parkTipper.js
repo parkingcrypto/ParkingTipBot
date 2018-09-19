@@ -13,7 +13,7 @@ exports.commands = ['tippark'];
 exports.tippark = {
   usage: '<subcommand>',
   description:
-    '__**Ravencoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +24,7 @@ exports.tippark = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Ravencoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -60,10 +60,10 @@ function doHelp(message, helpmsg) {
 function doBalance(message, tipper) {
   park.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Ravencoin (PARK) balance.').then(message => message.delete(10000));
+      message.reply('Error getting ParkingCoin (PARK) balance.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::money_with_wings::moneybag:Ravencoin (PARK) Balance!:moneybag::money_with_wings::bank:**',
+    description: '**:bank::money_with_wings::moneybag:ParkingCoin (PARK) Balance!:moneybag::money_with_wings::bank:**',
     color: 1363892,
     fields: [
       {
@@ -85,10 +85,10 @@ function doBalance(message, tipper) {
 function doDeposit(message, tipper) {
   getAddress(tipper, function(err, address) {
     if (err) {
-      message.reply('Error getting your Ravencoin (PARK) deposit address.').then(message => message.delete(10000));
+      message.reply('Error getting your ParkingCoin (PARK) deposit address.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::card_index::moneybag:Ravencoin (PARK) Address!:moneybag::card_index::bank:**',
+    description: '**:bank::card_index::moneybag:ParkingCoin (PARK) Address!:moneybag::card_index::bank:**',
     color: 1363892,
     fields: [
       {
@@ -117,16 +117,16 @@ function doWithdraw(message, tipper, words, helpmsg) {
     amount = getValidatedAmount(words[3]);
 
   if (amount === null) {
-    message.reply("I don't know how to withdraw that much Ravencoin (PARK)...").then(message => message.delete(10000));
+    message.reply("I don't know how to withdraw that much ParkingCoin (PARK)...").then(message => message.delete(10000));
     return;
   }
 
   park.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Ravencoin (PARK) balance.').then(message => message.delete(10000));
+      message.reply('Error getting ParkingCoin (PARK) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Ravencoin (PARK) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' ParkingCoin (PARK) for transaction fees!');
         return;
       }
       park.sendFrom(tipper, address, Number(amount), function(err, txId) {
@@ -134,7 +134,7 @@ function doWithdraw(message, tipper, words, helpmsg) {
           message.reply(err.message).then(message => message.delete(10000));
         } else {
         message.channel.send({embed:{
-        description: '**:outbox_tray::money_with_wings::moneybag:Ravencoin (PARK) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
+        description: '**:outbox_tray::money_with_wings::moneybag:ParkingCoin (PARK) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
         color: 1363892,
         fields: [
           {
@@ -185,16 +185,16 @@ function doTip(bot, message, tipper, words, helpmsg) {
   let amount = getValidatedAmount(words[amountOffset]);
 
   if (amount === null) {
-    message.reply("I don't know how to tip that much Ravencoin (PARK)...").then(message => message.delete(10000));
+    message.reply("I don't know how to tip that much ParkingCoin (PARK)...").then(message => message.delete(10000));
     return;
   }
 
   park.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Ravencoin (PARK) balance.').then(message => message.delete(10000));
+      message.reply('Error getting ParkingCoin (PARK) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Ravencoin (PARK) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' ParkingCoin (PARK) for transaction fees!');
         return;
       }
 
@@ -218,14 +218,14 @@ function sendPARK(bot, message, tipper, recipient, amount, privacyFlag) {
     if (err) {
       message.reply(err.message).then(message => message.delete(10000));
     } else {
-          park.sendFrom(tipper, address, Number(amount), 1, null, null, function(err, txId) {
+          park.sendFrom(tipper, address, Number(amount), function(err, txId) {
               if (err) {
                 message.reply(err.message).then(message => message.delete(10000));
               } else {
                 if (privacyFlag) {
                   let userProfile = message.guild.members.find('id', recipient);
                   userProfile.user.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Ravencoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:ParkingCoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
@@ -256,7 +256,7 @@ function sendPARK(bot, message, tipper, recipient, amount, privacyFlag) {
                   ]
                 } });
                 message.author.send({ embed: {
-                description: '**:money_with_wings::moneybag:Ravencoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
+                description: '**:money_with_wings::moneybag:ParkingCoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
                 color: 1363892,
                 fields: [
                   {
@@ -294,7 +294,7 @@ function sendPARK(bot, message, tipper, recipient, amount, privacyFlag) {
                   }
                 } else {
                   message.channel.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Ravencoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:ParkingCoin (PARK) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
