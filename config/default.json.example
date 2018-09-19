@@ -1,83 +1,27 @@
 {
   // Bot configuration
   "bot": {
-      "token":"Bot-Token",
+      "token":"NDkxNDQ4MDY0NDg2MTQ2MDUw.DoQMJA.72Ky8O6dJNuP-j3TWeImbyVE8cc",
       "prefix": "!",
       "debug": true
   },
   "rvn": {
     "paytxfee": .01,
     "config": {
-      "port": 3335,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "doge": {
-    "paytxfee": 1,
-    "config": {
-      "port": 3336,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-}
-  },
-  "lbc": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3337,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "phase": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3338,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "ufo": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3338,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "pxc": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3339,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "ftc": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3340,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
-    }
-  },
-  "vtl": {
-    "paytxfee": .01,
-    "config": {
-      "port": 3341,
-      "user": "username",
-      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
+      "port": 47774,
+      "user": "parkingcoinrpc",
+      "pass": "d661a3f55ba168eace44c35ed6c3abe7272f66059188b7bfc8c00cbf490638d8"
     }
   },
   "moderation":{
   "pm2Name": "TipBot",
    // Roles that have access to all commands.
-  "perms": ["Admin","Moderator","Community Leader","Bots"],
+  "perms": ["ADMIN","BOT"],
   // Bot Devs!
   "botDev": "Bot Developer",
   // Channel to log the bots moderation..
-  "logchannel": "429853685179351050",
+  "logchannel": "481827740589228033",
   //channel that the tip message will reply in if Multi or Role tip is used.
-  "botspamchannels": ["429134627823812612", "429852470886268929"]
+  "botspamchannels": ["481827740589228033"]
   }
 }
