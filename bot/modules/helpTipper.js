@@ -10,19 +10,19 @@ exports.tiphelp = {
       '__**:bank: Coins :bank:**__\n' +
       '  **Parking (park) Tipper**\n    Transaction Fees: **' + parkingFee + '**\n' +
       '__**Commands**__\n' +
-      '  **.tip** : Displays This Message\n' +
-      '  **.tip balance** : get your balance\n' +
-      '  **.tip deposit** : get address for your deposits\n' +
-      '  **.tip withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n' +
-      '  **.tip <@user> <amount>** :mention a user with @ and then the amount to tip them\n' +
-      '  **.tip private <user> <amount>** : put private before Mentioning a user to tip them privately\n' +
+      '  **.tippark** : Displays This Message\n' +
+      '  **.tippark balance** : get your balance\n' +
+      '  **.tippark deposit** : get address for your deposits\n' +
+      '  **.tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n' +
+      '  **.tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n' +
+      '  **.tippark private <user> <amount>** : put private before Mentioning a user to tip them privately\n' +
       '**<> : Replace carrot <> symbole with appropriate value.**\n' +
       '__**Examples**__\n' +
-      '  **.tip @admin 10**\n' +
-      '  **.tip withdraw PARKaddressHERE 10**\n' +
-      '  **.tip private @admin 10**\n' +
-      '  **.tip balance**\n' +
-      '  **.tip deposit**\n'
+      '  **.tippark @admin 10**\n' +
+      '  **.tippark withdraw PARKaddressHERE 10**\n' +
+      '  **.tippark private @admin 10**\n' +
+      '  **.tippark balance**\n' +
+      '  **.tippark deposit**\n'
     );
   }
 };
