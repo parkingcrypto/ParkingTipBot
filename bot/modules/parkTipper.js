@@ -9,7 +9,7 @@ let walletConfig = config.get('park').config;
 let paytxfee = config.get('park').paytxfee;
 const park = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tippark', 'multitip', 'roletip'];
+exports.commands = ['tippark'];
 exports.tippark = {
   usage: '<subcommand>',
   description:
@@ -26,7 +26,6 @@ exports.tippark = {
       helpmsg =
         '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
-      MultiorRole = false;
     switch (subcommand) {
       case 'help':
         privateorSpamChannel(msg, channelwarning, doHelp, [helpmsg]);
@@ -41,57 +40,7 @@ exports.tippark = {
         privateorSpamChannel(msg, channelwarning, doWithdraw, [tipper, words, helpmsg]);
         break;
       default:
-        doTip(bot, msg, tipper, words, helpmsg, MultiorRole);
-    }
-  }
-};
-
-exports.multitip = {
-  usage: '<subcommand>',
-  description: 'Tip multiple users simultaneously for the same amount of PARK each.',
-  process: async function(bot, msg, suffix) {
-    let tipper = msg.author.id.replace('!', ''),
-      words = msg.content
-        .trim()
-        .split(' ')
-        .filter(function(n) {
-          return n !== '';
-        }),
-      subcommand = words.length >= 2 ? words[1] : 'help',
-      channelwarning = 'Please use <#' + spamchannel + '> or DMs to talk to bots.',
-      MultiorRole = true;
-    switch (subcommand) {
-      case 'help':
-        privateOrSandboxOnly(msg, channelwarning, doHelp, [helpmsg]);
-        break;
-      default:
-        doMultiTip(bot, msg, tipper, words, helpmsg, MultiorRole);
-        break;
-    }
-  }
-};
-
-exports.roletip = {
-  usage: '<subcommand>',
-  description: '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
-  process: async function(bot, msg, suffix) {
-    let tipper = msg.author.id.replace('!', ''),
-      words = msg.content
-        .trim()
-        .split(' ')
-        .filter(function(n) {
-          return n !== '';
-        }),
-      subcommand = words.length >= 2 ? words[1] : 'help',
-      channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.',
-      MultiorRole = true;
-    switch (subcommand) {
-      case 'help':
-        privateOrSandboxOnly(msg, channelwarning, doHelp, [helpmsg]);
-        break;
-      default:
-        doRoleTip(bot, msg, tipper, words, helpmsg, MultiorRole);
-        break;
+        doTip(bot, msg, tipper, words, helpmsg);
     }
   }
 };
@@ -221,7 +170,7 @@ function doWithdraw(message, tipper, words, helpmsg) {
   });
 }
 
-function doTip(bot, message, tipper, words, helpmsg, MultiorRole) {
+function doTip(bot, message, tipper, words, helpmsg) {
   if (words.length < 3 || !words) {
     doHelp(message, helpmsg);
     return;
@@ -255,68 +204,13 @@ function doTip(bot, message, tipper, words, helpmsg, MultiorRole) {
             .then(message => message.delete(10000));
             return;
           }
-          if (message.mentions.users.first() && message.mentions.users.first().id) {
-            return sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv, MultiorRole);
-          }
+      if (message.mentions.users.first().id) {
+        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
+      } else {
+        message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
+      }
     }
   });
-}
-
-function doMultiTip(bot, message, tipper, words, helpmsg, MultiorRole) {
-  if (!words) {
-    doHelp(message, helpmsg);
-    return;
-  }
-  if (words.length < 4) {
-    doTip(bot, message, tipper, words, helpmsg, MultiorRole);
-    return;
-  }
-  let prv = false;
-  if (words.length >= 5 && words[1] === 'private') {
-    prv = true;
-  }
-  let [userIDs, amount] = findUserIDsAndAmount(message, words, prv);
-  if (amount == null) {
-    message.reply("I don't know how to tip that many credits...").then(message => message.delete(5000));
-    return;
-  }
-  if (!userIDs) {
-    message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(5000));
-    return;
-  }
-  for (let i = 0; i < userIDs.length; i++) {
-    sendPARK(bot, message, tipper, userIDs[i].toString(), amount, prv, MultiorRole);
-  }
-}
-
-function doRoleTip(bot, message, tipper, words, helpmsg, MultiorRole) {
-  if (!words || words.length < 3) {
-    doHelp(message, helpmsg);
-    return;
-  }
-  let prv = false;
-  let amountOffset = 2;
-  if (words.length >= 4 && words[1] === 'private') {
-    prv = true;
-    amountOffset = 3;
-  }
-  let amount = getValidatedAmount(words[amountOffset]);
-  if (amount == null) {
-    message.reply("I don't know how to tip that much ParkingCoin (PARK)...").then(message => message.delete(10000));
-    return;
-  }
-  if (message.mentions.roles.first().id) {
-    if (message.mentions.roles.first().members.first().id) {
-      let userIDs = message.mentions.roles.first().members.map(member => member.user.id.replace('!', ''));
-      for (let i = 0; i < userIDs.length; i++) {
-        sendPARK(bot, message, tipper, userIDs[i], amount, prv, MultiorRole);
-      }
-    } else {
-      return message.reply('Sorry, I could not find any users to tip in that role...').then(message => message.delete(10000));
-    }
-  } else {
-    return message.reply('Sorry, I could not find any roles in your tip...').then(message => message.delete(10000));
-  }
 }
 
 function sendPARK(bot, message, tipper, recipient, amount, privacyFlag) {
