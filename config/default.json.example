@@ -2,7 +2,7 @@
   // Bot configuration
   "bot": {
       "token":"NDkxNDQ4MDY0NDg2MTQ2MDUw.DoQMJA.72Ky8O6dJNuP-j3TWeImbyVE8cc",
-      "prefix": "!",
+      "prefix": ".",
       "debug": true
   },
   "park": {
