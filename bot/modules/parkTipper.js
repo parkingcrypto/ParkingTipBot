@@ -255,11 +255,9 @@ function doTip(bot, message, tipper, words, helpmsg, MultiorRole) {
             .then(message => message.delete(10000));
             return;
           }
-      if (message.mentions.users.first().id) {
-        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv, MultiorRole);
-      } else {
-        message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
-      }
+          if (message.mentions.users.first() && message.mentions.users.first().id) {
+            return sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv, MultiorRole);
+          }
     }
   });
 }
