@@ -9,8 +9,8 @@ let walletConfig = config.get('park').config;
 let paytxfee = config.get('park').paytxfee;
 const park = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tip', 'multitip','roletip'];
-exports.tip = {
+exports.commands = ['tippark', 'multitip','roletip'];
+exports.tippark = {
   usage: '<subcommand>',
   description:
     '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
