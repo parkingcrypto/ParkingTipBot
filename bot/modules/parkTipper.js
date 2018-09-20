@@ -26,6 +26,7 @@ exports.tippark = {
       helpmsg =
         '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
+      MultiorRole = false;
     switch (subcommand) {
       case 'help':
         privateorSpamChannel(msg, channelwarning, doHelp, [helpmsg]);
@@ -40,7 +41,7 @@ exports.tippark = {
         privateorSpamChannel(msg, channelwarning, doWithdraw, [tipper, words, helpmsg]);
         break;
       default:
-        doTip(bot, msg, tipper, words, helpmsg);
+        doTip(bot, msg, tipper, words, helpmsg, MultiorRole);
     }
   }
 };
@@ -61,6 +62,7 @@ exports.roletip = {
       helpmsg =
         '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
+      MultiorRole = true;
     switch (subcommand) {
       case 'help':
         privateorSpamChannel(msg, channelwarning, doHelp, [helpmsg]);
@@ -75,14 +77,15 @@ exports.roletip = {
         privateorSpamChannel(msg, channelwarning, doWithdraw, [tipper, words, helpmsg]);
         break;
       default:
-        doRoleTip(bot, msg, tipper, words, helpmsg);
+        doRoleTip(bot, msg, tipper, words, helpmsg, MultiorRole);
     }
   }
 };
 
 exports.multitip = {
   usage: '<subcommand>',
-  description: 'Tip multiple users simultaneously for the same amount of PARK each.',
+  description: 
+  '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -232,7 +235,7 @@ function doWithdraw(message, tipper, words, helpmsg) {
   });
 }
 
-function doTip(bot, message, tipper, words, helpmsg) {
+function doTip(bot, message, tipper, words, helpmsg, MultiorRole) {
   if (words.length < 3 || !words) {
     doHelp(message, helpmsg);
     return;
@@ -267,7 +270,7 @@ function doTip(bot, message, tipper, words, helpmsg) {
             return;
           }
       if (message.mentions.users.first().id) {
-        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
+        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv, MultiorRole);
       } else {
         message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
       }
@@ -332,7 +335,7 @@ function doRoleTip(bot, message, tipper, words, helpmsg, MultiorRole) {
   }
 }
 
-function sendPARK(bot, message, tipper, recipient, amount, privacyFlag) {
+function sendPARK(bot, message, tipper, recipient, amount, privacyFlag, MultiorRole) {
   getAddress(recipient.toString(), function(err, address) {
     if (err) {
       message.reply(err.message).then(message => message.delete(10000));
