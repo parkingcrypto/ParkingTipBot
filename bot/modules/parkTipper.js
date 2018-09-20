@@ -9,7 +9,7 @@ let walletConfig = config.get('park').config;
 let paytxfee = config.get('park').paytxfee;
 const park = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tippark'];
+exports.commands = ['tippark', 'multitip', 'roletip'];
 exports.tippark = {
   usage: '<subcommand>',
   description:
