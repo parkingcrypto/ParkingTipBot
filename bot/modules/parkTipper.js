@@ -46,6 +46,31 @@ exports.tippark = {
   }
 };
 
+exports.multitip = {
+  usage: '<subcommand>',
+  description: 'Tip multiple users simultaneously for the same amount of PARK each.',
+  process: async function(bot, msg, suffix) {
+    let tipper = msg.author.id.replace('!', ''),
+      words = msg.content
+        .trim()
+        .split(' ')
+        .filter(function(n) {
+          return n !== '';
+        }),
+      subcommand = words.length >= 2 ? words[1] : 'help',
+      channelwarning = 'Please use <#' + spamchannel + '> or DMs to talk to bots.',
+      MultiorRole = true;
+    switch (subcommand) {
+      case 'help':
+        privateOrSandboxOnly(msg, channelwarning, doHelp, [helpmsg]);
+        break;
+      default:
+        doMultiTip(bot, msg, tipper, words, helpmsg, MultiorRole);
+        break;
+    }
+  }
+};
+
 exports.roletip = {
   usage: '<subcommand>',
   description: '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
