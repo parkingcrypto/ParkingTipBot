@@ -196,7 +196,7 @@ function doWithdraw(message, tipper, words, helpmsg) {
   });
 }
 
-function doTip(bot, message, tipper, words, helpmsg) {
+function doTip(bot, message, tipper, words, helpmsg, MultiorRole) {
   if (words.length < 3 || !words) {
     doHelp(message, helpmsg);
     return;
@@ -231,12 +231,39 @@ function doTip(bot, message, tipper, words, helpmsg) {
             return;
           }
       if (message.mentions.users.first().id) {
-        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
+        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv, MultiorRole);
       } else {
         message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
       }
     }
   });
+}
+
+function doMultiTip(bot, message, tipper, words, helpmsg, MultiorRole) {
+  if (!words) {
+    doHelp(message, helpmsg);
+    return;
+  }
+  if (words.length < 4) {
+    doTip(bot, message, tipper, words, helpmsg, MultiorRole);
+    return;
+  }
+  let prv = false;
+  if (words.length >= 5 && words[1] === 'private') {
+    prv = true;
+  }
+  let [userIDs, amount] = findUserIDsAndAmount(message, words, prv);
+  if (amount == null) {
+    message.reply("I don't know how to tip that many credits...").then(message => message.delete(5000));
+    return;
+  }
+  if (!userIDs) {
+    message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(5000));
+    return;
+  }
+  for (let i = 0; i < userIDs.length; i++) {
+    sendPARK(bot, message, tipper, userIDs[i].toString(), amount, prv, MultiorRole);
+  }
 }
 
 function doRoleTip(bot, message, tipper, words, helpmsg, MultiorRole) {
