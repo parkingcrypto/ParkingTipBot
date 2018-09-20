@@ -15,7 +15,7 @@ exports.tip = {
   description:
     '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippark** : Displays This Message\n    **!tippark balance** : get your balance\n    **!tippark deposit** : get address for your deposits\n    **!tippark withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippark <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippark private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
-    let tipper = msg.author.id.replace('.', ''),
+    let tipper = msg.author.id.replace('!', ''),
       words = msg.content
         .trim()
         .split(' ')
@@ -50,7 +50,7 @@ exports.roletip = {
   description:
     '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
-    let tipper = msg.author.id.replace('.', ''),
+    let tipper = msg.author.id.replace('!', ''),
       words = msg.content
         .trim()
         .split(' ')
@@ -84,7 +84,7 @@ exports.multitip = {
   usage: '<subcommand>',
   description: 'Tip multiple users simultaneously for the same amount of PARK each.',
   process: async function(bot, msg, suffix) {
-    let tipper = msg.author.id.replace('.', ''),
+    let tipper = msg.author.id.replace('!', ''),
       words = msg.content
         .trim()
         .split(' ')
@@ -265,7 +265,7 @@ function doTip(bot, message, tipper, words, helpmsg) {
             return;
           }
       if (message.mentions.users.first().id) {
-        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('.', ''), amount, prv);
+        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
       } else {
         message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
       }
