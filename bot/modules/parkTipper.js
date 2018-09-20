@@ -92,7 +92,9 @@ exports.multitip = {
           return n !== '';
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
-      channelwarning = 'Please use <#' + spamchannel + '> or DMs to talk to bots.',
+      helpmsg =
+        '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+      channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
       MultiorRole = true;
     switch (subcommand) {
       case 'help':
