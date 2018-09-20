@@ -9,7 +9,7 @@ let walletConfig = config.get('park').config;
 let paytxfee = config.get('park').paytxfee;
 const park = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tippark'];
+exports.commands = ['tippark', 'tiprole'];
 exports.tippark = {
   usage: '<subcommand>',
   description:
@@ -41,6 +41,41 @@ exports.tippark = {
         break;
       default:
         doTip(bot, msg, tipper, words, helpmsg);
+    }
+  }
+};
+
+exports.tiprole = {
+  usage: '<subcommand>',
+  description:
+    '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+  process: async function(bot, msg, suffix) {
+    let tipper = msg.author.id.replace('!', ''),
+      words = msg.content
+        .trim()
+        .split(' ')
+        .filter(function(n) {
+          return n !== '';
+        }),
+      subcommand = words.length >= 2 ? words[1] : 'help',
+      helpmsg =
+        '__**ParkingCoin (PARK) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprole** : Displays This Message\n    **!tiprole balance** : get your balance\n    **!tiprole deposit** : get address for your deposits\n    **!tiprole withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprole <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprole private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+      channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
+    switch (subcommand) {
+      case 'help':
+        privateorSpamChannel(msg, channelwarning, doHelp, [helpmsg]);
+        break;
+      case 'balance':
+        doBalance(msg, tipper);
+        break;
+      case 'deposit':
+        privateorSpamChannel(msg, channelwarning, doDeposit, [tipper]);
+        break;
+      case 'withdraw':
+        privateorSpamChannel(msg, channelwarning, doWithdraw, [tipper, words, helpmsg]);
+        break;
+      default:
+        doRoleTip(bot, msg, tipper, words, helpmsg);
     }
   }
 };
@@ -205,6 +240,49 @@ function doTip(bot, message, tipper, words, helpmsg) {
             return;
           }
       if (message.mentions.users.first().id) {
+        sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
+      } else {
+        message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
+      }
+    }
+  });
+}
+
+function doRoleTip(bot, message, tipper, words, helpmsg) {
+  if (words.length < 3 || !words) {
+    doHelp(message, helpmsg);
+    return;
+  }
+  var prv = false;
+  var amountOffset = 2;
+  if (words.length >= 4 && words[1] === 'private') {
+    prv = true;
+    amountOffset = 3;
+  }
+
+  let amount = getValidatedAmount(words[amountOffset]);
+
+  if (amount === null) {
+    message.reply("I don't know how to tip that much ParkingCoin (PARK)...").then(message => message.delete(10000));
+    return;
+  }
+
+  park.getBalance(tipper, 1, function(err, balance) {
+    if (err) {
+      message.reply('Error getting ParkingCoin (PARK) balance.').then(message => message.delete(10000));
+    } else {
+      if (Number(amount) + Number(paytxfee) > Number(balance)) {
+        message.channel.send('Please leave atleast ' + paytxfee + ' ParkingCoin (PARK) for transaction fees!');
+        return;
+      }
+
+      if (!message.mentions.roles.first()){
+           message
+            .reply('Sorry, I could not find a user in your tip...')
+            .then(message => message.delete(10000));
+            return;
+          }
+      if (message.mentions.roles.first().id) {
         sendPARK(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
       } else {
         message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
