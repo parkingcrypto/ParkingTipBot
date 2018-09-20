@@ -101,7 +101,7 @@ exports.multitip = {
       MultiorRole = true;
     switch (subcommand) {
       case 'help':
-        privateOrSandboxOnly(msg, channelwarning, doHelp, [helpmsg]);
+        privateorSpamChannel(msg, channelwarning, doHelp, [helpmsg]);
         break;
       default:
         doMultiTip(bot, msg, tipper, words, helpmsg, MultiorRole);
