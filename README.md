@@ -1,20 +1,10 @@
-# Bot for Discord communities to facilitate crypto coin tipping!
+# Bot for Discord communities to parking crypto coin tipping!
 (This README will be updated along with bot updates)
 
 Features:
 - Tipbot for any coin running the bitcoind client.
     - Help message `!tip`.
 - Dynamic plugin loading with permission support.
-- **out of the box Supported Coins**
-    - Dogecoin (DOGE)
-    - Ravencoin (RVN)
-    - LBRY Credits (LBC)
-    - Uniform Fiscal Object (UFO)
-    - ~~Proton (PROTON)~~ Phase(PHASE)
-    - Phoenixcoin (PXC)
-    - Feathercoin (FTC)
-    - Vertical (VTL)
-
 
 ## Create a Bot
 
@@ -39,10 +29,10 @@ https://discordapp.com/oauth2/authorize?client_id=INSERT_CLIENT_ID_HERE&scope=bo
 2) Edit and rename `default.json.example` to `default.json` in `/config`. You will use the same info in the next step.
 
     ```
-    "rvn": {
+    "park": {
       "paytxfee": .01
       "config":
-        "port": 3335,
+        "port": 47774,
         "user": "username",
         "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
       }
