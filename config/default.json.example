@@ -1,7 +1,7 @@
 {
   // Bot configuration
   "bot": {
-      "token":"NDkxNDQ4MDY0NDg2MTQ2MDUw.DoQMJA.72Ky8O6dJNuP-j3TWeImbyVE8cc",
+      "token":"NTA0NTQwNTIxNzY3NzYzOTk5.DrGiMQ.FMv2hfxp48jVKRS-mYb0pCXYGw8",
       "prefix": ".",
       "debug": true
   },
@@ -22,6 +22,6 @@
   // Channel to log the bots moderation..
   "logchannel": "492023927778967552",
   //channel that the tip message will reply in if Multi or Role tip is used.
-  "botspamchannels": ["481827740589228033"]
+  "botspamchannels": ["483996604152414220"]
   }
 }
